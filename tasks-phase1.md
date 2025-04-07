@@ -14,21 +14,32 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 
 4. From avaialble Github Actions select and run destroy on main branch.
 
+    ![img.png](doc/figures/destroy_master.png)
+   
 5. Create new git branch and:
     1. Modify tasks-phase1.md file.
+    
+    2. Create PR from this branch to **YOUR** master and merge it to make new release. 
+    
+    Dowód pomyślnego release:
 
-    2. Create PR from this branch to **YOUR** master and merge it to make new release.
-
-    ***place the screenshot from GA after succesfull application of release***
-
+   ![img.png](doc/figures/UdanyRelease.png)
+   ![img.png](doc/figures/UdanyRelease2.png)
 
 6. Analyze terraform code. Play with terraform plan, terraform graph to investigate different modules.
 
     ***describe one selected module and put the output of terraform graph for this module here***
 
 7. Reach YARN UI
+   
+   Komenda wykorzystana do ustawienia tunelu:
 
-   ***place the command you used for setting up the tunnel, the port and the screenshot of YARN UI here***
+    ``` gcloud compute ssh tbd-cluster-m --project=tbd-2025l-321119 --zone=europe-west1-c --tunnel-through-iap -- -L 8088:localhost:8088 ```
+
+    Aby dostać się do UI należy wpisać adres http://127.0.0.1:8088/cluster. Widok w przeglądarce:
+
+    ![img.png](doc/figures/hadoop.png)
+   
 
 8. Draw an architecture diagram (e.g. in draw.io) that includes:
     1. VPC topology with service assignment to subnets
