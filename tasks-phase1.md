@@ -57,17 +57,50 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
    ***place the screenshot from infracost output here***
 
 10. Create a BigQuery dataset and an external table using SQL
+
+    Wykorzystany kod SQL:
     
     ***place the code and output here***
+
+    Wynik poleceń:
    
     ***why does ORC not require a table schema?***
 
 11. Find and correct the error in spark-job.py
 
-    ***describe the cause and how to find the error***
+    Analizując logi:
+    
+    ![img.png](doc/figures/spark_job_logs.png)
+    
+    oraz plik *spark-job.py* znaleziono błąd w postaci złej nazwy ścieżki *DATA_BUCKET*:
+
+    ``` DATA_BUCKET = "gs://tbd-2025l-9900-data/data/shakespeare/" ``` 
+
+    Zostało to poprawione na: 
+
+    ``` DATA_BUCKET = "gs://tbd-2025l-321119-data/data/shakespeare/" ```
 
 12. Add support for preemptible/spot instances in a Dataproc cluster
 
-    ***place the link to the modified file and inserted terraform code***
-    
-    
+    Dla zachowania modularności stworzono zmienną przechowującą liczbę węzłów roboczych: [varaibles.tf](https://github.com/kenjakendi/tbd-workshop-1/blob/master/modules/dataproc/variables.tf)
+
+    ```
+    variable "preemptible_worker_count" {
+        type        = number
+        default     = 1
+        description = "Number of preemptible/spot worker nodes"
+    }
+    ```
+
+    Następnie dodano również konfigurację: [main.tf](https://github.com/kenjakendi/tbd-workshop-1/blob/master/modules/dataproc/main.tf)
+
+    ```
+    preemptible_worker_config {
+      num_instances = var.preemptible_worker_count
+      preemptibility = "SPOT"
+      disk_config {
+        boot_disk_type    = "pd-standard"
+        boot_disk_size_gb = 100
+      }
+    }
+    ```

@@ -24,3 +24,9 @@ variable "image_version" {
   type    = string
   default = "2.1.27-ubuntu20"
 }
+
+variable "preemptible_worker_count" {
+  type        = number
+  default     = 1
+  description = "Number of preemptible/spot worker nodes"
+}
