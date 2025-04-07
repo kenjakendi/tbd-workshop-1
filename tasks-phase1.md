@@ -58,13 +58,25 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
 10. Create a BigQuery dataset and an external table using SQL
 
-    Wykorzystany kod SQL:
-    
-    ***place the code and output here***
+    Wykorzystany kod SQL, który został wykonany dopiero po ukończeniu następnego zadania:
+
+    ``` 
+    CREATE SCHEMA IF NOT EXISTS tbd_data;
+
+    CREATE EXTERNAL TABLE tbd_data.demo_data
+    OPTIONS(
+    format = 'ORC',
+    uris = ['gs://tbd-2025l-321119-data/data/shakespeare/*.orc']
+    ); 
+
+    SELECT * FROM tbd_data.demo_data;
+    ```
 
     Wynik poleceń:
+
+    ![img.png](doc/figures/bigquery.png)
    
-    ***why does ORC not require a table schema?***
+    ORC nie potrzebuje zewnętrznego schematu, ponieważ sam go przechowuje wewnątrz pliku. Struktura danych (kolumny i ich typy) jest automatycznie rozpoznawana podczas odczytu danych z pliku.
 
 11. Find and correct the error in spark-job.py
 
@@ -80,6 +92,10 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
     ``` DATA_BUCKET = "gs://tbd-2025l-321119-data/data/shakespeare/" ```
 
+    Wynik:
+
+    ![img.png](doc/figures/spark_job_success.png)
+
 12. Add support for preemptible/spot instances in a Dataproc cluster
 
     Dla zachowania modularności stworzono zmienną przechowującą liczbę węzłów roboczych: [varaibles.tf](https://github.com/kenjakendi/tbd-workshop-1/blob/master/modules/dataproc/variables.tf)
@@ -87,7 +103,7 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
     ```
     variable "preemptible_worker_count" {
         type        = number
-        default     = 1
+        default     = 0
         description = "Number of preemptible/spot worker nodes"
     }
     ```
