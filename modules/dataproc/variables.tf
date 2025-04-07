@@ -27,6 +27,6 @@ variable "image_version" {
 
 variable "preemptible_worker_count" {
   type        = number
-  default     = 1
+  default     = 0
   description = "Number of preemptible/spot worker nodes"
 }
