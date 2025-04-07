@@ -29,7 +29,40 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 6. Analyze terraform code. Play with terraform plan, terraform graph to investigate different modules.
 
     ***describe one selected module and put the output of terraform graph for this module here***
-   
+
+    Terraform składa się z 9 modułów:
+- composer, 
+- data-pipeline
+- dataproc
+- dbt_docker_image
+- gcr 
+- jupyter_dcoker_image
+- metastore
+- vertex_ai_workbench
+- vpc.
+
+   Moduły w Terraformie to samodzielne, wielokrotnego użytku jednostki konfiguracji, które grupują zasoby infrastruktury w spójne bloki. Umożliwiają one organizację i ponowne wykorzystywanie kodu, co sprawia, że konfiguracje są bardziej przejrzyste, łatwiejsze w utrzymaniu i skalowalne.
+ 
+ Moduł, który zostanie opisany to moduł dataproc.
+ ![img.png](doc/figures/dataproc.png)
+![img.png](doc/figures/graph.png)
+ 
+
+  Dataproc w Google Cloud to zarządzana usługa, która umożliwia łatwe i szybkie wdrażanie oraz skalowanie klastrów obliczeniowych. W jego skład wchodzą następujące pliki:
+- version.tf - określa wymaganą wersję terraforma oraz provider Google za pomocą zmiennych required_version oraz required_providers,
+- variables.tf - Definiuje zmienne wejściowe, które pozwalają dostosować konfigurację bez modyfikacji kodu. Zawiera informacje o project_name, region, subnet (określa VPC subnet, który będzie używany), machine_type (typ maszyn dla węzłów klastra) oraz image_version (obraz dla Klastra Dataproc).
+- outputs.tf - Definiuje wyjścia modułu, które umożliwiają odczytanie kluczowych informacji po wdrożeniu. dataproc_cluster_name zawiera nazwę utworzonego klastra co umożliwia dalsze odniesienia się w innych częściach infrastruktruy lub dokumentacji.
+- main.tf - odpowiada za główną konfigurację zasobów, które są wdrażane w Google Cloud. 
+Plik main.tf zawiera w sobie:
+    - google_project_service.dataproc - odpowiedzialna za właczenie usługi Dataproc w projekcie.
+    - google_dataproc_cluster.tbd-dataproc-cluster - definiuje klaster Dataproc. Zawiera szczegółowe ustawienia klastra:
+	    - software_config - ustawia wersję obrazu systemowego,
+	    - gce_cluster_config - określa podsieć, ustawia metadane oraz tryb korzystania tylko z adresów wewnętrznych,
+	    - initialization_action - wskazuje na skrypt inicjalizacyjny przechowywany w Google Cloud Storage, który instaluje dodatkowe pakiety
+	    - master_config oraz worker_config - definiują konfigurację węzłów master (jeden węzeł) i worker (dwa węzły), a także ustalają typ maszyny i konfigurację dysku dla każdego z węzłów,
+
+Moduł zaczyna od włączenia usługi Dataproc w Google Cloud.  Następnie konfiguruje klaster, inicjalizuje środowsiko. umożliwia łatwe odniesienie do utworzonego klastra, co może być przydatne przy integracji z innymi narzędziami lub modułami w ramach większej infrastruktury.
+
 7. Reach YARN UI
    
    Komenda wykorzystana do ustawienia tunelu:
