@@ -76,6 +76,8 @@ Moduł zaczyna od włączenia usługi Dataproc w Google Cloud.  Następnie konfi
 
 8. Draw an architecture diagram (e.g. in draw.io) that includes:
     1. VPC topology with service assignment to subnets
+    ![img.png](doc/figures/diagram.png)
+
     2. Description of the components of service accounts:
 
     tbd-2025l-321119-data@tbd-2025l-321119.iam.gserviceaccount.com - jest skonfigurowane do operacji związanych z danymi. Służy do przetwarzania, przesyłania oraz przechowywania danych. Może być wykorzystywane przez aplikacje lub skrypty, które operują na danych, a także do integracji z usługami analitycznymi lub bazodanowymi.
@@ -99,7 +101,6 @@ Moduł zaczyna od włączenia usługi Dataproc w Google Cloud.  Następnie konfi
 
     Spark driver udostępnia port 30000, przez który master i executor mogą się połączyć, i otrzymywać polecenia od drivera. dzięki temu możliwe jest monitorowanie, i analizowanie ich statusu.
 
-    ![img.png](doc/figures/diagram.png)
 
 9. Create a new PR and add costs by entering the expected consumption into Infracost
 For all the resources of type: `google_artifact_registry`, `google_storage_bucket`, `google_service_networking_connection`
