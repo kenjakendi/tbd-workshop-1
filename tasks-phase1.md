@@ -75,7 +75,15 @@ Moduł zaczyna od włączenia usługi Dataproc w Google Cloud.  Następnie konfi
 
 8. Draw an architecture diagram (e.g. in draw.io) that includes:
     1. VPC topology with service assignment to subnets
-    2. Description of the components of service accounts
+    2. Description of the components of service accounts:
+
+    tbd-2025l-321119-data@tbd-2025l-321119.iam.gserviceaccount.com - jest skonfigurowane do operacji związanych z danymi. Służy do przetwarzania, przesyłania oraz przechowywania danych. Może być wykorzystywane przez aplikacje lub skrypty, które operują na danych, a także do integracji z usługami analitycznymi lub bazodanowymi.
+
+    tbd-2025l-321119-lab@tbd-2025l-321119.iam.gserviceaccount.com -  konto jest dedykowane do celów laboratoryjnych lub testowych w obrębie tego samego projektu. Może być wykorzystywane do eksperymentów, testowania nowych funkcji, wdrażania tymczasowych rozwiązań czy sandboxingu, co pozwala na izolację środowiska testowego od produkcyjnego.
+
+    510773884574-compute@developer.gserviceaccount.com -  domyślne konto serwisowe przypisane do Compute Engine. Konto to służy do wykonywania operacji związanych z maszynami wirtualnymi w Google Cloud. Jest używane przez instancje Compute Engine do uwierzytelniania się i uzyskiwania dostępu do zasobów chmurowych
+
+
     3. List of buckets for disposal
 
     tbd-2025l-321119-code - Bucket, który przechowuje kod wykonywalny, plik spark-job.py.
