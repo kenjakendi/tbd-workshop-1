@@ -85,9 +85,11 @@ Moduł zaczyna od włączenia usługi Dataproc w Google Cloud.  Następnie konfi
 For all the resources of type: `google_artifact_registry`, `google_storage_bucket`, `google_service_networking_connection`
 create a sample usage profiles and add it to the Infracost task in CI/CD pipeline. Usage file [example](https://github.com/infracost/infracost/blob/master/infracost-usage-example.yml) 
 
-   ***place the expected consumption you entered here***
+   ![img.png](doc/figures/expectedConsumption.png)
+    ![img.png](doc/figures/infracostEstimate.png)
+   ![img.png](doc/figures/infracostEstiamtes2.png)
+   
 
-   ***place the screenshot from infracost output here***
 
 10. Create a BigQuery dataset and an external table using SQL
 
