@@ -1,5 +1,5 @@
 IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each work session. You can recreate infrastructure by creating new PR and merging it to master.
-  
+
 ![img.png](doc/figures/destroy.png)
 
 1. Authors:
@@ -7,7 +7,7 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
    ***14***
 
    ***https://github.com/kenjakendi/tbd-workshop-1/***
-   
+
 2. Follow all steps in README.md.
 
 3. In boostrap/variables.tf add your emails to variable "budget_channels".
@@ -15,11 +15,11 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 4. From avaialble Github Actions select and run destroy on main branch.
 
     ![img.png](doc/figures/destroy_master.png)
-   
+
 5. Create new git branch and:
     1. Modify tasks-phase1.md file.
-    
-    2. Create PR from this branch to **YOUR** master and merge it to make new release. 
+
+    2. Create PR from this branch to **YOUR** master and merge it to make new release.
 
     Dowód pomyślnego release:
 
@@ -31,28 +31,28 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
     ***describe one selected module and put the output of terraform graph for this module here***
 
     Terraform składa się z 9 modułów:
-- composer, 
+- composer,
 - data-pipeline
 - dataproc
 - dbt_docker_image
-- gcr 
+- gcr
 - jupyter_dcoker_image
 - metastore
 - vertex_ai_workbench
 - vpc.
 
    Moduły w Terraformie to samodzielne, wielokrotnego użytku jednostki konfiguracji, które grupują zasoby infrastruktury w spójne bloki. Umożliwiają one organizację i ponowne wykorzystywanie kodu, co sprawia, że konfiguracje są bardziej przejrzyste, łatwiejsze w utrzymaniu i skalowalne.
- 
+
  Moduł, który zostanie opisany to moduł dataproc.
  ![img.png](doc/figures/dataproc.png)
 ![img.png](doc/figures/graph.png)
- 
+
 
   Dataproc w Google Cloud to zarządzana usługa, która umożliwia łatwe i szybkie wdrażanie oraz skalowanie klastrów obliczeniowych. W jego skład wchodzą następujące pliki:
 - version.tf - określa wymaganą wersję terraforma oraz provider Google za pomocą zmiennych required_version oraz required_providers,
 - variables.tf - Definiuje zmienne wejściowe, które pozwalają dostosować konfigurację bez modyfikacji kodu. Zawiera informacje o project_name, region, subnet (określa VPC subnet, który będzie używany), machine_type (typ maszyn dla węzłów klastra) oraz image_version (obraz dla Klastra Dataproc).
 - outputs.tf - Definiuje wyjścia modułu, które umożliwiają odczytanie kluczowych informacji po wdrożeniu. dataproc_cluster_name zawiera nazwę utworzonego klastra co umożliwia dalsze odniesienia się w innych częściach infrastruktruy lub dokumentacji.
-- main.tf - odpowiada za główną konfigurację zasobów, które są wdrażane w Google Cloud. 
+- main.tf - odpowiada za główną konfigurację zasobów, które są wdrażane w Google Cloud.
 Plik main.tf zawiera w sobie:
     - google_project_service.dataproc - odpowiedzialna za właczenie usługi Dataproc w projekcie.
     - google_dataproc_cluster.tbd-dataproc-cluster - definiuje klaster Dataproc. Zawiera szczegółowe ustawienia klastra:
@@ -64,7 +64,7 @@ Plik main.tf zawiera w sobie:
 Moduł zaczyna od włączenia usługi Dataproc w Google Cloud.  Następnie konfiguruje klaster, inicjalizuje środowsiko. umożliwia łatwe odniesienie do utworzonego klastra, co może być przydatne przy integracji z innymi narzędziami lub modułami w ramach większej infrastruktury.
 
 7. Reach YARN UI
-   
+
    Komenda wykorzystana do ustawienia tunelu:
 
     ``` gcloud compute ssh tbd-cluster-m --project=tbd-2025l-321119 --zone=europe-west1-c --tunnel-through-iap -- -L 8088:localhost:8088 ```
@@ -72,18 +72,29 @@ Moduł zaczyna od włączenia usługi Dataproc w Google Cloud.  Następnie konfi
     Aby dostać się do UI należy wpisać adres http://127.0.0.1:8088/cluster. Widok w przeglądarce:
 
     ![img.png](doc/figures/hadoop.png)
-   
+
 8. Draw an architecture diagram (e.g. in draw.io) that includes:
     1. VPC topology with service assignment to subnets
     2. Description of the components of service accounts
     3. List of buckets for disposal
+
+    tbd-2025l-321119-code - Bucket, który przechowuje kod wykonywalny, plik spark-job.py.
+
+    tbd-2025l-321119-conf - Bucket, który przechowuje skrypt konfigurujący i instalujący potrzebne biblioteki.
+
+    tbd-2025l-321119-data - Bucket, który przechowuje dane wygenerowane przez działającą aplikacje
+
+    tbd-2025l-321119-state - Bucket, który przechowuje informacje o aktualnym stanie, naszej aplikacji, w formacie .tfstate
+
     4. Description of network communication (ports, why it is necessary to specify the host for the driver) of Apache Spark running from Vertex AI Workbech
-  
-    ***place your diagram here***
+
+    Spark driver udostępnia port 30000, przez który master i executor mogą się połączyć, i otrzymywać polecenia od drivera. dzięki temu możliwe jest monitorowanie, i analizowanie ich statusu.
+
+    ![img.png](doc/figures/diagram.png)
 
 9. Create a new PR and add costs by entering the expected consumption into Infracost
 For all the resources of type: `google_artifact_registry`, `google_storage_bucket`, `google_service_networking_connection`
-create a sample usage profiles and add it to the Infracost task in CI/CD pipeline. Usage file [example](https://github.com/infracost/infracost/blob/master/infracost-usage-example.yml) 
+create a sample usage profiles and add it to the Infracost task in CI/CD pipeline. Usage file [example](https://github.com/infracost/infracost/blob/master/infracost-usage-example.yml)
 
    ***place the expected consumption you entered here***
 
@@ -93,14 +104,14 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
 
     Wykorzystany kod SQL, który został wykonany dopiero po ukończeniu następnego zadania:
 
-    ``` 
+    ```
     CREATE SCHEMA IF NOT EXISTS tbd_data;
 
     CREATE EXTERNAL TABLE tbd_data.demo_data
     OPTIONS(
     format = 'ORC',
     uris = ['gs://tbd-2025l-321119-data/data/shakespeare/*.orc']
-    ); 
+    );
 
     SELECT * FROM tbd_data.demo_data;
     ```
@@ -108,20 +119,20 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
     Wynik poleceń:
 
     ![img.png](doc/figures/bigquery.png)
-   
+
     ORC nie potrzebuje zewnętrznego schematu, ponieważ sam go przechowuje wewnątrz pliku. Struktura danych (kolumny i ich typy) jest automatycznie rozpoznawana podczas odczytu danych z pliku.
 
 11. Find and correct the error in spark-job.py
 
     Analizując logi:
-    
+
     ![img.png](doc/figures/spark_job_logs.png)
-    
+
     oraz plik *spark-job.py* znaleziono błąd w postaci złej nazwy ścieżki *DATA_BUCKET*:
 
-    ``` DATA_BUCKET = "gs://tbd-2025l-9900-data/data/shakespeare/" ``` 
+    ``` DATA_BUCKET = "gs://tbd-2025l-9900-data/data/shakespeare/" ```
 
-    Zostało to poprawione na: 
+    Zostało to poprawione na:
 
     ``` DATA_BUCKET = "gs://tbd-2025l-321119-data/data/shakespeare/" ```
 
