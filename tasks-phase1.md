@@ -45,7 +45,9 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 
     4. Description of network communication (ports, why it is necessary to specify the host for the driver) of Apache Spark running from Vertex AI Workbech
 
-    ***place your diagram here***
+    Spark driver udostępnia port 30000, przez który master i executor mogą się połączyć, i otrzymywać polecenia od drivera. dzięki temu możliwe jest monitorowanie, i analizowanie ich statusu.
+
+    ![img.png](doc/figures/diagram.png)
 
 9. Create a new PR and add costs by entering the expected consumption into Infracost
 For all the resources of type: `google_artifact_registry`, `google_storage_bucket`, `google_service_networking_connection`
