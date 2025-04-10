@@ -4,7 +4,10 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
 
 1. Authors:
 
-   ***14***
+    ***zespół 14***
+    Damian Pałyska \
+    Filip Kiernozek \
+    Michał Laskowski
 
    ***https://github.com/kenjakendi/tbd-workshop-1/***
 
@@ -27,8 +30,6 @@ IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each wo
    ![img.png](doc/figures/UdanyRelease2.png)
 
 6. Analyze terraform code. Play with terraform plan, terraform graph to investigate different modules.
-
-    ***describe one selected module and put the output of terraform graph for this module here***
 
     Terraform składa się z 9 modułów:
 - composer,
@@ -107,7 +108,7 @@ create a sample usage profiles and add it to the Infracost task in CI/CD pipelin
    ![img.png](doc/figures/expectedConsumption.png)
     ![img.png](doc/figures/infracostEstimate.png)
    ![img.png](doc/figures/infracostEstiamtes2.png)
-   
+
 
 
 10. Create a BigQuery dataset and an external table using SQL
